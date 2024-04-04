@@ -1,0 +1,2 @@
+CT2018        // Magic bytes indicating the start of the KDB file
+Pointer1      // Pointer to the entry list (4 bytes, little endian)
