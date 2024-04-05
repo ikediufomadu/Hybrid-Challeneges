@@ -23,6 +23,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+
 # Run the application as a non-root user.
 USER node
 
