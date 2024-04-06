@@ -15,6 +15,9 @@ This project is a simple login website application built with Go for the backend
     1. Open your terminal and navigate to the Backend folder.
     2. Open the SQL_Script text file.
     3. Copy the commands into your MySQL server to set up the necessary tables and data.
+    4. Inorder to change the database user information go into the main.go file, in the InitializeDB function you can change the login credentials to match your own database users.
+    5. If necessary, you can change the database connection type and port in the main.go file as well.
+        - db, err = sql.Open("mysql", username+":"+password+"@tcp(localhost:3306)/"+dbname)
 ### Backend Setup
     1. Open your terminal and navigate to the Backend folder.
     2. Ensure you have Go installed and configured.

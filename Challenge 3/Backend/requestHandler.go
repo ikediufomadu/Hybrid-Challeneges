@@ -92,7 +92,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		var userID int
 		err = db.QueryRow("SELECT id FROM "+dbName+" WHERE username = ?", username).Scan(&userID)
 
-		CreateCookie(db, userID, username, w)
+		createCookie(db, userID, username, w)
 		fmt.Println("A user just logged in", "username:", username, "userID:", userID)
 		sendJSONResponse(w, http.StatusOK, ServerResponse{Success: true, Message: "Login successful"})
 		return
