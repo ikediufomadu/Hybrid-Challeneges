@@ -18,13 +18,13 @@ type LoginRequestBody struct {
 	Password string `json:"password"`
 }
 
-// Handle CORS preflight request
+// CORSPreflight handles CORS preflight request
 func CORSPreflight(w http.ResponseWriter, r *http.Request) {
 	addCORSHeaders(w)
 	w.WriteHeader(http.StatusNoContent)
 }
 
-// addCORSHeaders adds CORS headers to the response.
+// addCORSHeaders adds CORS headers to the response
 func addCORSHeaders(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, PUT, OPTIONS")
@@ -33,16 +33,7 @@ func addCORSHeaders(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 }
 
-// deleteSessionCookie deletes the session ID cookie.
-func deleteSessionCookie(w http.ResponseWriter) {
-	cookie := &http.Cookie{
-		Name:   "session_id",
-		Value:  "",
-		Path:   "/",
-		MaxAge: -1,
-	}
-	http.SetCookie(w, cookie)
-}
+
 
 // sendJSONResponse sends a JSON response with the given status code and data.
 func sendJSONResponse(w http.ResponseWriter, statusCode int, data interface{}) {
@@ -86,7 +77,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	username := requestBody.Username
 	password := requestBody.Password
 
-	// Query the database with the retrieved username
+	// Query the database with the retrieved username, and grabs the user's password
 	var storedPassword string
 	err = db.QueryRow("SELECT password FROM "+dbName+" WHERE username = ?", username).Scan(&storedPassword)
 	if err != nil {
@@ -126,10 +117,9 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Retrieve session ID from the cookie
+	// Retrieve session ID from the brower's cookie
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
-		// Handle session ID retrieval error
 		fmt.Println("Error retrieving session ID cookie:", err)
 		sendJSONResponse(w, http.StatusInternalServerError, ServerResponse{Success: false, Message: "Error retrieving session ID cookie"})
 		return
@@ -138,7 +128,6 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 	// Update the ended_at value in the sessions table
 	_, err = db.Exec("UPDATE sessions SET ended_at = ? WHERE session_id = ?", time.Now().UTC(), cookie.Value)
 	if err != nil {
-		// Handle update error
 		fmt.Println("Error updating session:", err)
 		sendJSONResponse(w, http.StatusInternalServerError, ServerResponse{Success: false, Message: "Error updating session"})
 		return
