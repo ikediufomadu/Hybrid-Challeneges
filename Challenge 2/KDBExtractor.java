@@ -1,3 +1,7 @@
+/**
+ * The `KDBExtractor` class in Java reads and decodes data from a custom file format using the LFSR
+ * algorithm.
+ */
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

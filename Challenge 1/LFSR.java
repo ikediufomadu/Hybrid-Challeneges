@@ -1,3 +1,7 @@
+/**
+ * The `LFSR` class in Java implements a simple Linear Feedback Shift Register (LFSR) encryption
+ * algorithm to encrypt data using a given initial value and feedback value.
+ */
 public class LFSR {
     public static void main(String[] args) {
         // Example usage
