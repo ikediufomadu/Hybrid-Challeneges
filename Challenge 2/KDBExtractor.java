@@ -9,12 +9,14 @@ import java.nio.ByteOrder;
 public class KDBExtractor {
     public static void main(String[] args) {
         if (args.length != 1) {
+            System.out.println("Please provide a path to a kdb file");
             System.out.println("Usage: java KDBExtractor <path_to_kdb_file>");
             System.exit(1);
         }
 
         String filePath = args[0];
         try {
+            // Access the file
             FileInputStream fis = new FileInputStream(filePath);
             BufferedInputStream bis = new BufferedInputStream(fis);
 
@@ -22,6 +24,7 @@ public class KDBExtractor {
             byte[] magicBytes = new byte[6];
             bis.read(magicBytes);
             String magicString = new String(magicBytes);
+            // Verify that it's actually a .kdb file
             if (!magicString.equals("CT2018")) {
                 System.out.println("Invalid KDB file.");
                 System.exit(1);
